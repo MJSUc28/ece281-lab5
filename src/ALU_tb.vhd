@@ -73,9 +73,9 @@ begin
         wait for k_step;
 
         assert w_result = to_vec(0)
-            report "ADD 0+0: wrong result" severity error;
+            report "1 ADD 0+0: wrong result" severity error;
         assert w_flags  = "0100"             -- N=0 Z=1 C=0 V=0
-            report "ADD 0+0: wrong NZCV" severity error;
+            report "1 ADD 0+0: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  2. ADD - normal, no carry, no overflow  (5 + 3 = 8)
@@ -86,9 +86,9 @@ begin
         wait for k_step;
 
         assert w_result = to_vec(8)
-            report "ADD 5+3: wrong result" severity error;
+            report "2 ADD 5+3: wrong result" severity error;
         assert w_flags  = "0000"             -- N=0 Z=0 C=0 V=0
-            report "ADD 5+3: wrong NZCV" severity error;
+            report "2 ADD 5+3: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  3. ADD - generates carry out (240 + 17 = 257 -> 0x01, C=1)
@@ -99,9 +99,9 @@ begin
         wait for k_step;
 
         assert w_result = x"01"
-            report "ADD carry: wrong result" severity error;
+            report "3 ADD carry: wrong result" severity error;
         assert w_flags  = "0010"             -- N=0 Z=0 C=1 V=0
-            report "ADD carry: wrong NZCV" severity error;
+            report "3 ADD carry: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  4. SUB - simple (10 - 3 = 7)
@@ -112,9 +112,9 @@ begin
         wait for k_step;
 
         assert w_result = to_vec(7)
-            report "SUB 10-3: wrong result" severity error;
+            report "4 SUB 10-3: wrong result" severity error;
         assert w_flags  = "0010"             -- N=0 Z=0 C=1 (no borrow) V=0
-            report "SUB 10-3: wrong NZCV" severity error;
+            report "4 SUB 10-3: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  5. SUB - negative result with no overflow (3 - 10 = -7)
@@ -125,9 +125,9 @@ begin
         wait for k_step;
 
         assert w_result = x"F9"              -- 0xF9 = -7
-            report "SUB 3-10: wrong result" severity error;
+            report "5 SUB 3-10: wrong result" severity error;
         assert w_flags  = "1000"             -- N=1 Z=0 C=0 V=0
-            report "SUB 3-10: wrong NZCV" severity error;
+            report "5 SUB 3-10: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  6. SUB - negative result with overflow (-100 - 30 = -130)
@@ -138,9 +138,9 @@ begin
         wait for k_step;
  
         assert w_result = x"7E"              -- incorrectly = 126
-            report "SUB 100-30: wrong result" severity error;
+            report "6 SUB 100-30: wrong result" severity error;
         assert w_flags  = "0011"             -- N=0 Z=0 C=1 V=1
-            report "SUB 100-30: wrong NZCV" severity error;
+            report "6 SUB 100-30: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  7. AND  (0x55 & 0x0F = 0x05)
@@ -151,9 +151,9 @@ begin
         wait for k_step;
 
         assert w_result = x"05"
-            report "AND: wrong result" severity error;
+            report "7 AND: wrong result" severity error;
         assert w_flags  = "0000"             -- N=0 Z=0 C=0 V=0
-            report "AND: wrong NZCV" severity error;
+            report "7 AND: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  8. OR   (0x80 | 0x01 = 0x81, negative set)
@@ -164,9 +164,9 @@ begin
         wait for k_step;
 
         assert w_result = x"81"
-            report "OR: wrong result" severity error;
+            report "8 OR: wrong result" severity error;
         assert w_flags  = "1000"             -- N=1 Z=0 C=0 V=0
-            report "OR: wrong NZCV" severity error;
+            report "8 OR: wrong NZCV" severity error;
 
         ----------------------------------------------------------------------------
         --  All tests passed
